@@ -1,0 +1,58 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     2016/5/7 13:37:23                            */
+/*==============================================================*/
+
+
+drop table if exists site;
+
+drop table if exists site_article;
+
+drop table if exists site_category;
+
+/*==============================================================*/
+/* Table: site                                                  */
+/*==============================================================*/
+create table site
+(
+   id                   bigint(10) not null auto_increment,
+   domain               varchar(32) not null,
+   name                 varchar(100),
+   title                varchar(200),
+   primary key (id)
+);
+
+alter table site comment '爬取数据的站点';
+
+/*==============================================================*/
+/* Table: site_article                                          */
+/*==============================================================*/
+create table site_article
+(
+   id                   bigint(11) not null auto_increment,
+   site_category_id     bigint(11),
+   title                varchar(100),
+   url                  varchar(100),
+   primary key (id)
+);
+
+alter table site_article comment '爬取网站的文章';
+
+/*==============================================================*/
+/* Table: site_category                                         */
+/*==============================================================*/
+create table site_category
+(
+   id                   bigint(11) not null auto_increment,
+   website_id           bigint(11),
+   url                  varchar(100),
+   name                 varchar(50),
+   primary key (id)
+);
+
+alter table site_article add constraint FK_article_category_id foreign key (site_category_id)
+      references site_category (id);
+
+alter table site_category add constraint FK_category_site_id foreign key (website_id)
+      references site (id);
+
